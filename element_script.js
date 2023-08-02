@@ -52,7 +52,7 @@ function remakeTime(timeString) {
 
 const allPrices = [];
 // Получаем список файлов в папке "data" с расширением .csv
-fetch('./data/')
+fetch('https://raw.githubusercontent.com/RQprice/royal_price/main/data/')
     .then((response) => response.text())
     .then((data) => {
         const parser = new DOMParser();
