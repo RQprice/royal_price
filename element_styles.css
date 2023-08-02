@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1f1f1f;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 32px;
+    color: #ffcc00;
+}
+
+.container {
+    height: 700px;
+    width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex; /* Добавим flex-контейнер */
+    flex-direction: column; /* Список будет расположен вертикально */
+    align-items: center; /* Выравнивание по центру по горизонтали */
+    box-sizing: border-box; /* Учтем размеры padding и border в общей ширине */
+}
+
+
+/* Стили для отображения элемента в полноэкранном режиме */
+.element-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-size: 24px;
+    text-transform: uppercase;
+    background-color: #1f1f1f;
+}
+
+.element-page span {
+    color: #ffcc00;
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+#canvas {
+    margin-top: 40px;
+}
+
+#elementInfo {
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+

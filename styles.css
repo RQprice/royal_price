@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1f1f1f;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 32px;
+    color: #ffcc00;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex; /* Добавим flex-контейнер */
+    flex-direction: column; /* Список будет расположен вертикально */
+    align-items: center; /* Выравнивание по центру по горизонтали */
+    box-sizing: border-box; /* Учтем размеры padding и border в общей ширине */
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #444444;
+    color: #ffffff;
+    border-radius: 30px;
+    font-size: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#resultList {
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+    width: 100%; /* Ширина списка займет всю доступную ширину контейнера */
+}
+
+li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #555555;
+    transition: background-color 0.2s ease;
+    height: 25px;
+    width: 96%; /* Ширина элементов списка займет всю доступную ширину списка */
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+li:hover {
+    background-color: #555555;
+}
+
+/* Добавим стили для активного (выбранного) элемента списка */
+li.active {
+    background-color: #ffcc00;
+    color: #000000;
+}
+
+/* Добавим стили для пустого списка результатов */
+#resultList:empty::before {
+    content: "Ничего не найдено";
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #999999;
+}
+
+/* Стили для отображения элемента в полноэкранном режиме */
+.element-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-size: 24px;
+    text-transform: uppercase;
+    background-color: #1f1f1f;
+}
+
+.element-page span {
+    color: #ffcc00;
+    font-size: 48px;
+    margin-bottom: 20px;
+}
