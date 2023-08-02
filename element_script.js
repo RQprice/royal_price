@@ -1,3 +1,16 @@
+// Функция для получения значения параметра из URL
+function getParameterByName(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Получаем значение параметра "name" из URL
+const elementName = getParameterByName('name');
+
+// Отображаем наименование элемента на странице
+const elementInfoDiv = document.getElementById('elementInfo');
+elementInfoDiv.textContent = `Наименование элемента: ${decodeURIComponent(elementName)}`;
+
 // Функция для загрузки CSV файла и возврата имени файла
 function loadCSV() {
     const csvUrl = 'https://raw.githubusercontent.com/RQprice/royal_price/main/data/trophies_2023-07-29_00-07.csv';
@@ -37,13 +50,6 @@ function remakeTime(timeString) {
 
     return formattedDate;
 }
-
-// Получаем значение параметра "name" из URL
-const elementName = getParameterByName('name');
-
-// Отображаем наименование элемента на странице
-const elementInfoDiv = document.getElementById('elementInfo');
-elementInfoDiv.textContent = `Наименование элемента: ${decodeURIComponent(elementName)}`;
 
 // Загружаем и обрабатываем CSV файл
 loadCSV()
