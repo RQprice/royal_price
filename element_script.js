@@ -52,7 +52,7 @@ function remakeTime(timeString) {
 
 const allPrices = [];
 // Получаем список файлов в папке "data" с расширением .csv
-fetch('/royal_price/data/')
+fetch('https://drive.google.com/drive/folders/1oUk1sUigqWhMauyJvwLfEVCXXqascL6d?usp=sharing')
     .then((response) => response.text())
     .then((data) => {
         const parser = new DOMParser();
