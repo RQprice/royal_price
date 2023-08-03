@@ -1,4 +1,3 @@
-// Функция для получения значения параметра из URL
 function getParameterByName(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
@@ -11,63 +10,54 @@ const elementName = getParameterByName('name');
 const elementInfoDiv = document.getElementById('elementInfo');
 elementInfoDiv.textContent = `Наименование элемента: ${decodeURIComponent(elementName)}`;
 
-// Функция для загрузки CSV файла и возврата имени файла
-function loadCSV() {
-    const csvUrl = 'https://raw.githubusercontent.com/RQprice/royal_price/main/data/trophies_2023-07-29_00-07.csv';
-    return fetch(csvUrl)
-        .then((response) => response.text())
-        .then((data) => {
-            const match = csvUrl.match(/trophies_(\d{4}-\d{2}-\d{2}_\d{2}-\d{2})\.csv/);
-            const timeString = match ? match[1] : '';
-            return { timeString, data };
-        });
+// Функция для загрузки CSV файла и возврата данных
+async function loadCSV() {
+    const csvUrl = `https://raw.githubusercontent.com/RQprice/data/main/${elementName}.csv`;
+    const response = await fetch(csvUrl);
+    const csvData = await response.text();
+    return csvData;
 }
 
-// Функция для парсинга CSV данных и получения цен для элемента
-function parseCSV(csvData) {
-    const lines = csvData.split('\n');
+// Функция для обработки CSV данных и отображения графика
+async function processData() {
+    const csvData = await loadCSV();
+    const rows = csvData.split('\n').slice(1);
+    const times = [];
     const prices = [];
 
-    lines.forEach((line) => {
-        const [item, price] = line.split(',');
-        if (item.trim() === elementName) {
-            const formattedPrice = price.trim().replace(/"/g, '');
-            prices.push(formattedPrice);
+    rows.forEach(row => {
+        const columns = row.split(',');
+        if (columns.length === 2) { // Проверяем, что columns содержит два элемента
+            const time = columns[0].replace(/"/g, '');
+            const price = columns[1].replace(/"|\n/g, '');
+            times.push(time);
+            prices.push(parseFloat(price));
         }
     });
 
-    return prices;
-}
-
-// Функция для преобразования времени
-function remakeTime(timeString) {
-    const [datePart, timePart] = timeString.split('_');
-    const [year, month, day] = datePart.split('-');
-    const [hour, minute] = timePart.split('-');
-
-    const date = new Date(year, month - 1, day, hour, minute);
-    const formattedDate = `${day.padStart(2, '0')}.${month.padStart(2, '0')}.${year} ${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
-
-    return formattedDate;
-}
-
-// Загружаем и обрабатываем CSV файл
-loadCSV()
-    .then((fileData) => {
-        const prices = parseCSV(fileData.data);
-        if (prices.length > 0) {
-            const price_time = remakeTime(fileData.timeString);
-            const pricesList = document.createElement('ul');
-            prices.forEach((price) => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `Цена: ${price}, Время: ${price_time}`;
-                pricesList.appendChild(listItem);
-            });
-            elementInfoDiv.appendChild(pricesList);
-        } else {
-            elementInfoDiv.textContent = 'Цены для данного элемента не найдены в CSV файле.';
+    // Отображение данных на графике
+    const ctx = document.getElementById('canvas').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: times,
+            datasets: [{
+                label: 'Цена',
+                data: prices,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
-    })
-    .catch((error) => {
-        console.error('Ошибка загрузки данных:', error);
     });
+
+}
+
+processData(); // Вызываем функцию обработки данных при загрузке страницы
