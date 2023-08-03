@@ -36,28 +36,95 @@ async function processData() {
     });
 
     // Отображение данных на графике
-    const ctx = document.getElementById('canvas').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: times,
-            datasets: [{
-                label: 'Цена',
-                data: prices,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+    const chartContainer = document.getElementById('chartContainer');
 
+    const priceChart = new Chart(chartContainer, {
+      type: 'line',
+      data: {
+        labels: times,
+        datasets: [{
+          label: 'Цена',
+          data: prices,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 2,
+          pointRadius: 0,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#ffffff',
+            },
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'gray',
+            },
+            ticks: {
+              color: '#ffffff',
+            },
+          },
+          y: {
+            grid: {
+              color: 'gray',
+            },
+            ticks: {
+              color: '#ffffff',
+            },
+          },
+        },
+        elements: {
+          line: {
+            tension: 0,
+          },
+        },
+        tooltips: {
+          intersect: false,
+          mode: 'index',
+          axis: 'x',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          titleColor: '#ffffff',
+          bodyColor: '#ffffff',
+          displayColors: false,
+        },
+      },
+    });
+    
+    var originalLineDraw = Chart.controllers.line.prototype.draw;
+    Chart.helpers.extend(Chart.controllers.line.prototype, {
+    draw: function() {
+        originalLineDraw.apply(this, arguments);
+
+        var chart = this.chart;
+        var ctx = chart.chart.ctx;
+
+    if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+        var activePoint = this.chart.tooltip._active[0];
+        var ctx = this.chart.ctx;
+        var x = activePoint.tooltipPosition().x;
+        var topY = this.chart.scales['y-axis-0'].top;
+        var bottomY = this.chart.scales['y-axis-0'].bottom;
+
+        // draw line
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x, topY);
+        ctx.lineTo(x, bottomY);
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = '#eeeeee';
+        ctx.stroke();
+        ctx.restore();
+    }
+    }});
+    
 }
 
-processData(); // Вызываем функцию обработки данных при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    processData(); // Call the function when the DOM is ready
+  });
