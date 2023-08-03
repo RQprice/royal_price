@@ -91,3 +91,16 @@ li.active {
     font-size: 48px;
     margin-bottom: 20px;
 }
+
+/* Responsive styles for smaller screens (up to 600px width) */
+@media screen and (max-width: 600px) {
+        .container {
+        max-width: 100%; /* Adjust the container's width for smaller screens */
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
+    
+        /* Adjust the width of the list items for smaller screens */
+    li {
+        width: 100%;
+    }
+}
