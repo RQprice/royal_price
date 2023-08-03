@@ -34,10 +34,11 @@ async function processData() {
             prices.push(parseFloat(price));
         }
     });
+    
 
     // Отображение данных на графике
     const chartContainer = document.getElementById('chartContainer');
-
+    
     const priceChart = new Chart(chartContainer, {
       type: 'line',
       data: {
@@ -47,7 +48,7 @@ async function processData() {
           data: prices,
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
           borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 2,
+          borderWidth: 2.5,
           pointRadius: 0,
         }],
       },
@@ -77,11 +78,35 @@ async function processData() {
             ticks: {
               color: '#ffffff',
             },
+            offset: true, // добавляем отступ от края сетки по оси X
           },
         },
         elements: {
           line: {
             tension: 0,
+          },
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+          axis: 'x',
+          onHover: (event, chartElements) => {
+            if (chartElements && chartElements.length > 0) {
+              const index = chartElements[0].index;
+              const xValue = priceChart.data.labels[index];
+              const yValue = priceChart.data.datasets[0].data[index];
+              const xPixel = priceChart.scales.x.getPixelForValue(xValue);
+    
+              const tooltip = new Chart.Tooltip({
+                chart: priceChart,
+                options: priceChart.options.tooltips,
+                enabled: true,
+              });
+              tooltip.initialize();
+              tooltip._active = [{ index }];
+              tooltip.update(true);
+              priceChart.draw();
+            }
           },
         },
         tooltips: {
@@ -95,34 +120,7 @@ async function processData() {
         },
       },
     });
-    
-    var originalLineDraw = Chart.controllers.line.prototype.draw;
-    Chart.helpers.extend(Chart.controllers.line.prototype, {
-    draw: function() {
-        originalLineDraw.apply(this, arguments);
 
-        var chart = this.chart;
-        var ctx = chart.chart.ctx;
-
-    if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
-        var activePoint = this.chart.tooltip._active[0];
-        var ctx = this.chart.ctx;
-        var x = activePoint.tooltipPosition().x;
-        var topY = this.chart.scales['y-axis-0'].top;
-        var bottomY = this.chart.scales['y-axis-0'].bottom;
-
-        // draw line
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(x, topY);
-        ctx.lineTo(x, bottomY);
-        ctx.lineWidth = 0.5;
-        ctx.strokeStyle = '#eeeeee';
-        ctx.stroke();
-        ctx.restore();
-    }
-    }});
-    
 }
 
 document.addEventListener('DOMContentLoaded', () => {
