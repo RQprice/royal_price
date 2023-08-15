@@ -21,7 +21,7 @@ async function loadCSV() {
 // Функция для обработки CSV данных и отображения графика
 async function processData() {
     const csvData = await loadCSV();
-    const rows = csvData.split('\n').slice(1);
+    const rows = csvData.split('\n').slice(0, -1);
     const times = [];
     const prices = [];
 
