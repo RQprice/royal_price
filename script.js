@@ -48,33 +48,39 @@ const elementsList = [
 ];
 
 
-const searchInput = document.getElementById('searchInput');
-const resultList = document.getElementById('resultList');
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const resultList = document.getElementById('resultList');
 
-// Функция для поиска элементов
-function searchElements() {
-    const searchTerm = searchInput.value.toLowerCase();
-    resultList.innerHTML = ''; // Очистка результата поиска
-
-    elementsList.forEach((element) => {
-        if (element.toLowerCase().includes(searchTerm)) {
-            const listItem = document.createElement('li');
-            listItem.textContent = element;
-            // Добавляем обработчик события на клик по элементу списка
-            listItem.addEventListener('click', () => openElementPage(element));
-            resultList.appendChild(listItem);
-        }
-    });
-
-}
-
-function openElementPage(element) {
-    // Очищаем значение поля ввода перед переходом
+    // Очищаем поле ввода и список результатов
     searchInput.value = '';
-    window.location.href = `./element.html?name=${encodeURIComponent(element)}`;
-}
+    resultList.innerHTML = '';
 
-// Обработчик события ввода в поле поиска
-searchInput.addEventListener('input', searchElements);
+    // Функция для поиска элементов
+    function searchElements() {
+        const searchTerm = searchInput.value.toLowerCase();
+        resultList.innerHTML = ''; // Очистка результата поиска
 
-searchElements();
+        elementsList.forEach((element) => {
+            if (element.toLowerCase().includes(searchTerm)) {
+                const listItem = document.createElement('li');
+                listItem.textContent = element;
+                // Добавляем обработчик события на клик по элементу списка
+                listItem.addEventListener('click', () => openElementPage(element));
+                resultList.appendChild(listItem);
+            }
+        });
+
+    }
+
+    function openElementPage(element) {
+        // Очищаем значение поля ввода перед переходом
+        searchInput.value = '';
+        window.location.href = `./element.html?name=${encodeURIComponent(element)}`;
+    }
+
+    // Обработчик события ввода в поле поиска
+    searchInput.addEventListener('input', searchElements);
+
+    searchElements();
+});
