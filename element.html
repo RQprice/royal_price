@@ -11,8 +11,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>Информация об элементе</h1>
-        <div id="elementInfo"></div>
+        <h1><div id="elementInfo"></div></h1>
+        
+        <div id="lastTime"></div>
+        <div id="lastPrice"></div>
+
+        <div class="timeButtons">
+            <button id="dayButton">Сутки</button>
+            <button id="weekButton">Неделя</button>
+            <button id="monthButton">Месяц</button>
+            <button id="yearButton">Год</button>
+            <button id="allTimeButton">За все время</button>
+        </div>
+
         <canvas id="chartContainer"></canvas>
     </div>
     <script src="element_script.js"></script>
