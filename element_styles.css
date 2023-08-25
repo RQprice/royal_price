@@ -7,7 +7,7 @@ body {
 }
 
 h1 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: center;
     text-transform: uppercase;
     font-size: 32px;
@@ -78,6 +78,24 @@ h1 {
     background-color: #555555;
 }
 
+#goBack {
+    position: absolute;
+    top: 20px; /* Расстояние от верхнего края страницы */
+    left: 20px; /* Расстояние от левого края страницы */
+    z-index: 1000; /* Устанавливаем высокий z-index для кнопки, чтобы она была поверх других элементов */
+    padding: 10px 20px;
+    background-color: #444444;
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#goBack button:hover {
+    background-color: #555555;
+}
 
 /* Responsive styles for smaller screens (up to 600px width) */
 @media screen and (max-width: 600px) {

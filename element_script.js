@@ -172,10 +172,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthButton = document.getElementById('monthButton');
     const yearButton = document.getElementById('yearButton');
     const allTimeButton = document.getElementById('allTimeButton');
-    
     dayButton.addEventListener('click', () => changeGraph(1));
     weekButton.addEventListener('click', () => changeGraph(7));
     monthButton.addEventListener('click', () => changeGraph(30));
     yearButton.addEventListener('click', () => changeGraph(365));
     allTimeButton.addEventListener('click', () => changeGraph(30000));
+
+    const goBackButton = document.getElementById('goBack');
+    goBackButton.addEventListener('click', () => {
+        window.location.href = './index.html'; // Переход на начальную страницу
+    });
 });
