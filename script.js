@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для добавления значка
     function replaceIcon(element) {
         if (!openList) {
-            element.textContent = element.textContent.replace('▲', '▼');
-        } else {
             element.textContent = element.textContent.replace('▼', '▲');
+        } else {
+            element.textContent = element.textContent.replace('▲', '▼');
         }
     }
 
